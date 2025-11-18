@@ -7,7 +7,10 @@ const pool = new Pool({
   database: process.env.PG_DATABASE,
   user: process.env.PG_USER,
   password: process.env.PG_PASSWORD,
-  max: 50,
+  //TODO ajustar esses valores para verificar o limite do pg
+  max: 100,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000,
 });
 
 export class PgRepository implements BaseRepository {
