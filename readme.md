@@ -16,3 +16,23 @@ CREATE INDEX IF NOT EXISTS idx_timestamp ON medicoes(timestamp);
 CREATE INDEX IF NOT EXISTS idx_sensor_timestamp ON medicoes(sensor_id, timestamp DESC);
 
 ```
+
+### CQL para criação do keyspace do Cassandra
+
+```
+CREATE KEYSPACE IF NOT EXISTS medicoes_test
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+USE medicoes_test;
+
+CREATE TABLE IF NOT EXISTS medicoes (
+  id UUID,
+  sensor_id TEXT,
+  value DECIMAL,
+  metadata TEXT,
+  timestamp TIMESTAMP,
+  PRIMARY KEY (sensor_id, timestamp, id)
+) WITH CLUSTERING ORDER BY (timestamp DESC);
+
+DESCRIBE TABLE medicoes;
+```
