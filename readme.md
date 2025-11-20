@@ -36,3 +36,24 @@ CREATE TABLE IF NOT EXISTS medicoes (
 
 DESCRIBE TABLE medicoes;
 ```
+
+### CQL para utilização de vários nós no Cassandra
+
+```
+CREATE KEYSPACE IF NOT EXISTS medicoes_test
+WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor': 1};
+
+USE medicoes_test;
+
+DROP TABLE IF EXISTS medicoes;
+
+CREATE TABLE medicoes (
+  sensor_id TEXT,
+  timestamp TIMESTAMP,
+  id UUID,
+  value DECIMAL,
+  metadata TEXT,
+  PRIMARY KEY (sensor_id, timestamp, id)
+) WITH CLUSTERING ORDER BY (timestamp DESC);
+
+```
